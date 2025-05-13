@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>ZenFit - Nos Coachs</title>
+    <style>
+        :root {
+            --primary: #a82073;
+            --secondary: #9b5de5;
+            --light: #f9f9f9;
+            --dark: #4d3c59;
+            --accent: #6713c5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef1f5 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(155, 93, 229, 0.7)), url('https://images.unsplash.com/photo-1599058917212-d750089bc07e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+            height: 40vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            padding-top: 12rem;
+        }
+
+        .nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.8rem 3rem;
+            z-index: 10;
+            background: rgba(77, 60, 89, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Style pour la section utilisateur et déconnexion */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .welcome-msg {
+            color: white;
+            font-weight: 500;
+        }
+
+        .welcome-msg span {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .auth-buttons, .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(241, 91, 181, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: #e343a3;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(241, 91, 181, 0.6);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .btn-warning {
+            background: #fee440;
+            color: var(--dark);
+            box-shadow: 0 4px 15px rgba(254, 228, 64, 0.4);
+        }
+
+        .btn-warning:hover {
+            background: #fed717;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(254, 228, 64, 0.6);
+        }
+
+        .btn-danger {
+            background: #e5383b;
+            color: white;
+            box-shadow: 0 4px 15px rgba(229, 56, 59, 0.4);
+        }
+
+        .btn-danger:hover {
+            background: #d52a2d;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(229, 56, 59, 0.6);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .coach-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .coach-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .coach-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .coach-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .coach-image-placeholder {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #f3e5ff, #fef1f7);
+            color: var(--secondary);
+            font-size: 4rem;
+        }
+
+        .coach-content {
+            padding: 1.5rem;
+        }
+
+        .coach-name {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .coach-email {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .coach-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 1rem;
+            font-size: 0.8rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin: 2rem 0;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .empty-state p {
+            color: #6c757d;
+            margin-bottom: 1.5rem;
+        }
+
+        .add-coach-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(241, 91, 181, 0.4);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .add-coach-btn:hover {
+            background: #e343a3;
+            transform: translateY(-5px) rotate(90deg);
+            box-shadow: 0 6px 20px rgba(241, 91, 181, 0.6);
+        }
+
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 10% 1rem;
+            background-image: linear-gradient(to right, #4d3c59, #513c60, #5c3e75);
+            margin-top: 5rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 1rem;
+            text-align: center;
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 1rem 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .header {
+                height: 30vh;
+                padding-top: 8rem;
+            }
+
+            .user-info {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Header Section -->
+<header class="header">
+    <nav class="nav">
+        <a href="/" class="logo">Zen<span>Fit</span> <i class="fas fa-spa" style="font-size: 0.9rem;"></i></a>
+        <div class="nav-links">
+            <a href="/">Accueil</a>
+            <a href="/courses">Cours</a>
+            <a href="/coachs" class="active">Coachs</a>
+            <a href="#">Tarifs</a>
+            <a href="#">Contact</a>
+        </div>
+        <div th:if="${user} != null" class="user-info">
+            <span class="welcome-msg">Bonjour, <span th:text="${user?.username}">Utilisateur</span></span>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-outline">Déconnexion</button>
+            </form>
+        </div>
+
+        <div th:if="${user} == null" class="auth-buttons">
+            <a href="/login" class="btn btn-outline">Connexion</a>
+            <a href="/register" class="btn btn-primary">Inscription</a>
+        </div>
+    </nav>
+    <div class="hero-content">
+        <h1>Nos Coachs Experts</h1>
+    </div>
+</header>
+
+<div class="container">
+    <div class="section-title">
+        <h2>Découvrez Notre Équipe</h2>
+    </div>
+
+    <!-- Message quand aucun coach n'est disponible -->
+    <div class="empty-state" th:if="${coaches.isEmpty()}">
+        <i class="fas fa-user-slash"></i>
+        <h3>Aucun coach n'est enregistré</h3>
+        <p>Ajoutez votre premier coach pour commencer à créer vos séances</p>
+        <a th:href="@{/coachs/new}" class="btn btn-primary">Ajouter un Coach</a>
+    </div>
+
+    <!-- Grid de coachs -->
+    <div class="coach-grid" th:if="${!coaches.isEmpty()}">
+        <div class="coach-card" th:each="coach : ${coaches}">
+            <div class="coach-image">
+                <!-- Si le coach a une image -->
+                <div th:if="${coach.coachImageUrl != null && !coach.coachImageUrl.isEmpty()}"
+                     class="coach-image"
+                     th:style="'background-image: url(' + ${coach.coachImageUrl} + ');'">
+                </div>
+                <!-- Si le coach n'a pas d'image -->
+                <div th:if="${coach.coachImageUrl == null || coach.coachImageUrl.isEmpty()}" class="coach-image-placeholder">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+            <div class="coach-content">
+                <h3 class="coach-name" th:text="${coach.firstName + ' ' + coach.lastName}">Nom du Coach</h3>
+                <p class="coach-email"><i class="fas fa-envelope"></i> <span th:text="${coach.email}">coach@example.com</span></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-bottom">
+        <p>&copy; 2025 ZenFit - Tous droits réservés</p>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script>
+    // Animation simple au scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const coachCards = document.querySelectorAll('.coach-card');
+
+        // Animation simple au survol
+        coachCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+        });
+
+        // Animation pour la nav au scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(155, 93, 229, 0.8)';
+                nav.style.padding = '1rem 3rem';
+                nav.style.boxShadow = '0 5px 15px rgba(241, 91, 181, 0.2)';
+            } else {
+                nav.style.background = 'rgba(77, 60, 89, 0.2)';
+                nav.style.backdropFilter = 'blur(5px)';
+                nav.style.padding = '1.8rem 3rem';
+                nav.style.boxShadow = 'none';
+            }
+        });
+    });
+</script>
+</body>
+</html>

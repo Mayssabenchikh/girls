@@ -1,0 +1,34 @@
+<!-- src/main/resources/templates/course/list.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Liste des cours</title>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+<h2>Liste des cours</h2>
+
+<a th:href="@{/courses/add}">Ajouter un cours</a>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Nom</th>
+    <th>Salle</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="course : ${courses}">
+    <td th:text="${course.id}">1</td>
+    <td th:text="${course.name}">Nom</td>
+    <td th:text="${course.room.name}">Salle</td>
+    <td>
+      <a th:href="@{'/courses/delete/' + ${course.id}}">Supprimer</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

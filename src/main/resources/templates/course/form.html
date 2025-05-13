@@ -1,0 +1,42 @@
+<!-- src/main/resources/templates/course/form.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Ajouter un cours</title>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<h2>Ajouter un cours</h2>
+
+<form th:action="@{/courses/save}" th:object="${course}" method="post">
+    <div>
+        <label>Nom du cours :</label>
+        <input type="text" th:field="*{name}" required/>
+    </div>
+
+    <div>
+        <label>Coach :</label>
+        <select th:field="*{coach}" required>
+            <option th:each="coach : ${coaches}"
+                    th:value="${coach.id}"
+                    th:text="${coach.name}">Coach</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Salle :</label>
+        <select th:field="*{room}" required>
+            <option th:each="room : ${rooms}"
+                    th:value="${room.id}"
+                    th:text="${room.name}">Salle</option>
+        </select>
+    </div>
+
+    <div>
+        <button type="submit">Enregistrer</button>
+    </div>
+</form>
+
+<a th:href="@{/courses}">Retour à la liste</a>
+</body>
+</html>
