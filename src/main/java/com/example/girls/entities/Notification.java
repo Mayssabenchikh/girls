@@ -17,11 +17,42 @@ public class Notification {
     private Long id;
 
     @ManyToOne
-    private User user; // L'utilisateur qui reçoit la notification
+    private User user;
 
-    private String message; // Message de la notification
-    private LocalDateTime sentDate; // Date d'envoi de la notification
+    private String message;
+    private LocalDateTime sentDate;
 
-    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public LocalDateTime getSentDate() {
+        return sentDate;
+    }
+
+    public void setSentDate(LocalDateTime sentDate) {
+        this.sentDate = sentDate;
+    }
+
 }
 
