@@ -1,34 +1,402 @@
-<!-- src/main/resources/templates/course/list.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
-  <title>Liste des cours</title>
-  <meta charset="UTF-8"/>
+  <title>Liste des Cours - ZenFit</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Variables globales harmonisées */
+    :root {
+      --primary: #a82073;
+      --secondary: #9b5de5;
+      --light: #f9f9f9;
+      --dark: #4d3c59;
+      --accent: #6713c5;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #eef1f5 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Header et Navbar (harmonisé avec la page Coachs) */
+    .header {
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(155, 93, 229, 0.7)), url('https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover no-repeat;
+      height: 40vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      padding-top: 12rem;
+    }
+
+    .nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.8rem 3rem;
+      z-index: 10;
+      background: rgba(77, 60, 89, 0.2);
+      backdrop-filter: blur(5px);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: var(--secondary);
+      font-size: 1.8rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--secondary);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background-color: var(--secondary);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* Style pour la section utilisateur et déconnexion */
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .welcome-msg {
+      color: white;
+      font-weight: 500;
+    }
+
+    .welcome-msg span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .auth-buttons, .user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 15px rgba(241, 91, 181, 0.4);
+    }
+
+    .btn-primary:hover {
+      background: #e343a3;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(241, 91, 181, 0.6);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-3px);
+    }
+
+    .hero-content {
+      max-width: 800px;
+      padding: 0 2rem;
+      z-index: 2;
+    }
+
+    .hero-content h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    /* Styles pour la page des cours */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section-title, .page-title {
+      text-align: center;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .section-title h2, .page-title {
+      font-size: 2.5rem;
+      display: inline-block;
+    }
+
+    .section-title h2::after, .page-title::after {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 4px;
+      background: var(--secondary);
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* Styles conservés de la liste des cours */
+    .courses-container {
+      padding: 40px 0;
+    }
+
+    .courses-list {
+      list-style-type: none;
+      padding: 0;
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .courses-list li {
+      background-color: white;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      display: flex;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .courses-list li:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .course-image-container {
+      flex: 0 0 200px;
+    }
+
+    .course-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .course-details-container {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .course-details-container strong {
+      font-size: 1.3rem;
+      color: var(--dark);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .course-details-container span {
+      color: #6c757d;
+      display: block;
+      margin-bottom: 15px;
+    }
+
+    .course-action {
+      display: inline-block;
+      margin-top: 15px;
+    }
+
+    /* Footer (ajouté de la page Coachs) */
+    .footer {
+      background: var(--dark);
+      color: white;
+      padding: 2rem 10% 1rem;
+      background-image: linear-gradient(to right, #4d3c59, #513c60, #5c3e75);
+      margin-top: 5rem;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 1rem;
+      text-align: center;
+      color: #b0b0b0;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 992px) {
+      .hero-content h1 {
+        font-size: 2.8rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav {
+        padding: 1rem 2rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .header {
+        height: 30vh;
+        padding-top: 8rem;
+      }
+
+      .user-info {
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      .section-title h2, .page-title {
+        font-size: 2rem;
+      }
+
+      .courses-list li {
+        flex-direction: column;
+      }
+
+      .course-image-container {
+        height: 180px;
+        flex: none;
+      }
+    }
+  </style>
 </head>
 <body>
-<h2>Liste des cours</h2>
+<!-- Header Section avec navbar harmonisé -->
+<header class="header">
+  <nav class="nav">
+    <a href="/" class="logo">Zen<span>Fit</span> <i class="fas fa-spa" style="font-size: 0.9rem;"></i></a>
+    <div class="nav-links">
+      <a href="/">Accueil</a>
+      <a href="/courses" class="active">Cours</a>
+      <a href="/coachs">Coachs</a>
+      <a href="#">Tarifs</a>
+      <a href="#">Contact</a>
+    </div>
+    <div th:if="${user} != null" class="user-info">
+      <span class="welcome-msg">Bonjour, <span th:text="${user?.username}">Utilisateur</span></span>
+      <form th:action="@{/logout}" method="post">
+        <button type="submit" class="btn btn-outline">Déconnexion</button>
+      </form>
+    </div>
 
-<a th:href="@{/courses/add}">Ajouter un cours</a>
+    <div th:if="${user} == null" class="auth-buttons">
+      <a href="/login" class="btn btn-outline">Connexion</a>
+      <a href="/register" class="btn btn-primary">Inscription</a>
+    </div>
+  </nav>
+  <div class="hero-content">
+    <h1>Nos Cours</h1>
+  </div>
+</header>
 
-<table border="1">
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Nom</th>
-    <th>Salle</th>
-    <th>Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="course : ${courses}">
-    <td th:text="${course.id}">1</td>
-    <td th:text="${course.name}">Nom</td>
-    <td th:text="${course.room.name}">Salle</td>
-    <td>
-      <a th:href="@{'/courses/delete/' + ${course.id}}">Supprimer</a>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<!-- Main Content -->
+<div class="container">
+  <div class="section-title">
+    <h2>Découvrez Nos Activités</h2>
+  </div>
+
+  <!-- Liste des cours -->
+  <ul class="courses-list">
+    <!-- Boucle à travers chaque cours et affiche ses propriétés -->
+    <li th:each="course : ${courses}">
+      <div class="course-image-container">
+        <img th:src="@{${course.photoUrl}}" alt="Image du cours">
+      </div>
+      <div class="course-details-container">
+        <strong th:text="${course.name}">Nom du cours</strong>
+        <span th:text="${course.description}">Description du cours</span>
+        <a href="#" class="btn btn-primary course-action">Réserver</a>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-bottom">
+    <p>&copy; 2025 ZenFit - Tous droits réservés</p>
+  </div>
+</footer>
+
+<!-- JavaScript -->
+<script>
+  // Animation simple au scroll pour la nav (repris de la page Coachs)
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animation pour la nav au scroll
+    window.addEventListener('scroll', function() {
+      const nav = document.querySelector('.nav');
+      if (window.scrollY > 50) {
+        nav.style.background = 'rgba(155, 93, 229, 0.8)';
+        nav.style.padding = '1rem 3rem';
+        nav.style.boxShadow = '0 5px 15px rgba(241, 91, 181, 0.2)';
+      } else {
+        nav.style.background = 'rgba(77, 60, 89, 0.2)';
+        nav.style.backdropFilter = 'blur(5px)';
+        nav.style.padding = '1.8rem 3rem';
+        nav.style.boxShadow = 'none';
+      }
+    });
+  });
+</script>
 </body>
 </html>

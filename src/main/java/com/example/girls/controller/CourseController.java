@@ -16,6 +16,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/courses")
 public class CourseController {
+
     @Autowired
     private CourseRepository courseRepository;
 
