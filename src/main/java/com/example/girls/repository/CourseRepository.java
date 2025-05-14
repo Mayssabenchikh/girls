@@ -19,6 +19,4 @@ public interface CourseRepository extends JpaRepository<Course, Long>, PagingAnd
     List<Course> findByCoach(User coach);
     List<Course> findByDateTimeBetween(LocalDateTime start, LocalDateTime end);
 
-    // Ajouter cette méthode pour la pagination
-    Page<Course> findAll(Pageable pageable);
 }

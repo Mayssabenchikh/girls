@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -54,9 +55,8 @@ public class CourseService implements ICourseService {
     public void delete(Long id) {
         courseRepository.deleteById(id);
     }
-    @Override
-    public Page<Course> findPaginated(int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-        return courseRepository.findAll(pageable);
-    }
+
+
+
+
 }

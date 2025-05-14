@@ -243,10 +243,12 @@
         }
 
         .coach-image {
-            height: 250px;
+            height: 350px;
+            width: 100%;
             background-size: cover;
             background-position: center;
-            position: relative;
+            background-repeat: no-repeat;
+
         }
 
         .coach-image-placeholder {
@@ -396,7 +398,6 @@
             <a href="/">Accueil</a>
             <a href="/courses">Cours</a>
             <a href="/coachs" class="active">Coachs</a>
-            <a href="#">Tarifs</a>
             <a href="#">Contact</a>
         </div>
         <div th:if="${user} != null" class="user-info">

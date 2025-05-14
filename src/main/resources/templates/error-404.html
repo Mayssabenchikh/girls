@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>ZenFit - Page non trouvée</title>
+    <style>
+        :root {
+            --primary: #a82073;
+            --secondary: #9b5de5;
+            --light: #f9f9f9;
+            --dark: #4d3c59;
+            --accent: #6713c5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #eef1f5 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav {
+            background: linear-gradient(rgba(77, 60, 89, 0.9), rgba(155, 93, 229, 0.7));
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 3rem;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--secondary);
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .error-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+        }
+
+        .error-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .error-message {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            color: #6c757d;
+        }
+
+        .error-illustration {
+            margin-bottom: 3rem;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .error-illustration svg {
+            max-width: 350px;
+            height: auto;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(241, 91, 181, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: #e343a3;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(241, 91, 181, 0.6);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(241, 91, 181, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 10% 1rem;
+            background-image: linear-gradient(to right, #4d3c59, #513c60, #5c3e75);
+            margin-top: auto;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+
+        .buttons-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 1rem 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .error-code {
+                font-size: 6rem;
+            }
+
+            .error-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animation de l'erreur */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+<nav class="nav">
+    <a href="/" class="logo">Zen<span>Fit</span> <i class="fas fa-spa" style="font-size: 0.9rem;"></i></a>
+    <div class="nav-links">
+        <a href="/">Accueil</a>
+        <a href="/courses">Cours</a>
+        <a href="/coachs">Coachs</a>
+        <a href="/contact">Contact</a>
+    </div>
+</nav>
+
+<div class="error-container">
+    <div class="error-illustration floating">
+        <svg width="350" height="250" viewBox="0 0 350 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Yoga figure -->
+            <path d="M175 60C183.284 60 190 53.2843 190 45C190 36.7157 183.284 30 175 30C166.716 30 160 36.7157 160 45C160 53.2843 166.716 60 175 60Z" fill="#9b5de5"/>
+            <path d="M200 110C200 110 190 85 175 85C160 85 150 110 150 110L140 170C140 170 155 180 175 180C195 180 210 170 210 170L200 110Z" fill="#a82073"/>
+            <path d="M150 110L125 140M200 110L225 140" stroke="#a82073" stroke-width="8" stroke-linecap="round"/>
+            <path d="M165 180L155 220M185 180L195 220" stroke="#a82073" stroke-width="8" stroke-linecap="round"/>
+
+            <!-- Meditation circles -->
+            <circle cx="175" cy="125" r="60" stroke="#6713c5" stroke-width="3" stroke-dasharray="8 8" opacity="0.5"/>
+            <circle cx="175" cy="125" r="80" stroke="#9b5de5" stroke-width="2" stroke-dasharray="5 5" opacity="0.3"/>
+
+            <!-- 404 text -->
+            <path d="M80 100H95V130H115V100H130V160H115V145H95V160H80V100Z" fill="#4d3c59"/>
+            <circle cx="175" cy="130" r="30" stroke="#4d3c59" stroke-width="15"/>
+            <path d="M220 100H235V130H255V100H270V160H255V145H235V160H220V100Z" fill="#4d3c59"/>
+        </svg>
+    </div>
+
+    <h1 class="error-code">404</h1>
+    <h2 class="error-title">Page non trouvée</h2>
+    <p class="error-message">La page que vous recherchez n'existe pas ou a été déplacée. Nous vous invitons à retrouver votre zen et à réessayer.</p>
+
+    <div class="buttons-group">
+        <a href="/" class="btn btn-primary"><i class="fas fa-home"></i> Page d'accueil</a>
+        <a href="/courses" class="btn btn-outline"><i class="fas fa-search"></i> Voir les cours</a>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-bottom">
+        <p>&copy; 2025 ZenFit - Tous droits réservés</p>
+    </div>
+</footer>
+
+<script>
+    // Animation au scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(155, 93, 229, 0.9)';
+                nav.style.padding = '0.8rem 3rem';
+                nav.style.boxShadow = '0 5px 15px rgba(241, 91, 181, 0.2)';
+            } else {
+                nav.style.background = 'linear-gradient(rgba(77, 60, 89, 0.9), rgba(155, 93, 229, 0.7))';
+                nav.style.padding = '1.2rem 3rem';
+                nav.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.1)';
+            }
+        });
+    });
+</script>
+</body>
+</html>

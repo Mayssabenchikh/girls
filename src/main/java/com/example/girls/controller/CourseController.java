@@ -33,30 +33,14 @@ public class CourseController {
 
     @Autowired
     private IUserService userService;
+
+
+
     @GetMapping
-    public String listCourses(Model model) {
-        return findPaginated(1, model);
-    }
-
-    @GetMapping("/page/{pageNo}")
-    public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model) {
-        int pageSize = 3; // Nombre de cours par page
-
-        Page<Course> page = courseService.findPaginated(pageNo, pageSize);
-        List<Course> courses = page.getContent();
-
-        model.addAttribute("currentPage", pageNo);
-        model.addAttribute("totalPages", page.getTotalPages());
-        model.addAttribute("totalItems", page.getTotalElements());
-        model.addAttribute("courses", courses);
-
-        return "course/list";
-    }
-    /*@GetMapping
     public String listCourses(Model model) {
         model.addAttribute("courses", courseService.findAll());
         return "course/list"; // <== Le bon chemin vers le template
-    }*/
+    }
 
     @GetMapping("/add")
     public String showAddForm(Model model) {

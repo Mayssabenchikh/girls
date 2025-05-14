@@ -679,7 +679,6 @@
             <a href="#">Accueil</a>
             <a href="/courses">Cours</a>
             <a href="/coachs">Coachs</a>
-            <a href="#">Tarifs</a>
             <a href="#">Contact</a>
         </div>
         <div th:if="${user} != null" class="user-info">
@@ -729,35 +728,18 @@
     </div>
 </section>
 
-<!-- Section des cours améliorée -->
 <section class="courses" id="courses-section">
     <div class="section-title">
         <h2>Découvrez nos cours</h2>
         <p class="section-subtitle">Trouvez l'activité qui vous correspond parmi notre sélection de cours</p>
     </div>
 
-    <!-- Filtres de cours -->
-    <div class="course-filters">
-        <div class="filter-group">
-            <button class="filter-btn active" data-filter="all">Tous les cours</button>
-            <button class="filter-btn" data-filter="yoga">Yoga</button>
-            <button class="filter-btn" data-filter="pilates">Pilates</button>
-            <button class="filter-btn" data-filter="fitness">Fitness</button>
-            <button class="filter-btn" data-filter="danse">Danse</button>
-        </div>
-        <div class="sort-group">
-            <select id="sort-courses" class="sort-select">
-                <option value="date-asc">Date (croissant)</option>
-                <option value="date-desc">Date (décroissant)</option>
-                <option value="name-asc">Nom (A-Z)</option>
-                <option value="name-desc">Nom (Z-A)</option>
-            </select>
-        </div>
-    </div>
+
 
     <div class="course-grid">
-        <!-- Boucle for avec th:each -->
-        <div class="course-card" th:each="course : ${courses}" th:data-category="${#strings.toLowerCase(#strings.substringBefore(course.name, ' '))}">
+        <div class="course-card" th:each="course, iterStat : ${courses}"
+             th:if="${iterStat.index < 3}"
+             th:data-category="${#strings.toLowerCase(#strings.substringBefore(course.name, ' '))}">
             <div class="course-badge" th:text="${#strings.substringBefore(course.name, ' ')}">Type</div>
             <div class="course-image" th:style="'background-image: url(' + ${course.image} + ')'"></div>
             <div class="course-content">
@@ -785,19 +767,11 @@
 
                 <div class="course-actions">
                     <a th:href="@{'/course/' + ${course.id}}" class="btn btn-primary">Réserver</a>
-                    <button class="btn-favorite"><i class="far fa-heart"></i></button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="courses-pagination">
-        <button class="pagination-btn"><i class="fas fa-chevron-left"></i></button>
-        <span class="pagination-current">1</span>
-        <span>/</span>
-        <span class="pagination-total">3</span>
-        <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
-    </div>
 
     <div class="courses-cta">
         <a href="/courses" class="btn btn-outline-primary">Voir tous les cours</a>
@@ -909,33 +883,28 @@
                 nav.style.boxShadow = 'none';
             }
         });
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-        // Filtres de cours
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        const courseCards = document.querySelectorAll('.course-card');
 
+
+    });
+    // Exemple de la structure des filtres côté frontend pour s'intégrer avec la pagination
+    document.addEventListener('DOMContentLoaded', function() {
+        // Sélectionnez tous les boutons de filtre
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        // Ajoutez des écouteurs d'événements à chaque bouton de filtre
         filterButtons.forEach(button => {
             button.addEventListener('click', function() {
-                // Retirer la classe active de tous les boutons
+                // Récupérez la catégorie du filtre
+                const category = this.getAttribute('data-category');
+
+                // Marquez ce bouton comme actif et désactivez les autres
                 filterButtons.forEach(btn => btn.classList.remove('active'));
-                // Ajouter la classe active au bouton cliqué
                 this.classList.add('active');
 
-                const filter = this.dataset.filter;
-
-                // Filtrer les cartes de cours
-                courseCards.forEach(card => {
-                    if (filter === 'all' || card.dataset.category === filter) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+                // Redirigez vers la même page avec le paramètre de catégorie
+                window.location.href = `/courses?category=${category}&page=0`;
             });
         });
-
-
     });
 </script>
 </body>
